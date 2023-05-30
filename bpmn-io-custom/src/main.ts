@@ -98,21 +98,6 @@ function setupListeners() {
   navigation.startListeners();
 }
 
- function setEncoded(link, name, data) {
-    let encodedData = encodeURIComponent(data);
-    console.log(link);
-    
-
-    if (data) {
-
-      // window.open('data:application/bpmn20-xml;charset=UTF-8,' + encodedData);
-      // link.setAttribute('class', 'active').setAttribute(
-        // 'href', 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData)
-        // .setAttribute('download', `${name}`);
-    } else {
-      // link.removeClass('active');
-    }
-  }
 
 // Init
 async function init() { 
@@ -128,14 +113,10 @@ async function init() {
   setupListeners();
 
   const downloadSvg = document.querySelector('#js-download-diagram');
-  downloadSvg?.addEventListener("click", async(e) => {
-    console.log('downloadSvg', e.target);  
-
+  downloadSvg?.addEventListener("click", async() => {
     try {
       const { svg } = await modeler.saveSVG();
-      let elem = e.target;
-
-      if(elem.tagName != 'A' || !elem.querySelector('a')) {
+    
         let encodedData = encodeURIComponent(svg);
 
         let a = document.createElement('a');
@@ -146,7 +127,6 @@ async function init() {
         a.click();
 
         a.remove();        
-      } 
     } catch (err) {
       console.error('Error happened saving svg: ', err);
     }

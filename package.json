@@ -1,8 +1,8 @@
 {
-  "name": "vscode-bpmn-editor",
+  "name": "vscode-bpmn-editor-untimate",
   "displayName": "BPMN Editor Ultimate",
   "description": "A .bpmn file editor integreated with VSCode, using BPMN-js, resize, color picker, export to SVG",
-  "publisher": "Nosenko Ilya",
+  "publisher": "NosenkoIlay",
   "version": "1.0.6",
   "icon": "images/logo.png",
   "author": {
