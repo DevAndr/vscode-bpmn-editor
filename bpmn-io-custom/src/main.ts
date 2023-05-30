@@ -3,17 +3,21 @@ import "./style.css";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
-import "bpmn-js-color-picker/colors/color-picker.css";
+import "bpmn-js-color-picker-bt/colors/color-picker.css";
 
 // External Modules
 import BpmnModeler from "bpmn-js/lib/Modeler";
-import BpmnColorPickerModule from "bpmn-js-color-picker";
+import BpmnColorPickerModule from "bpmn-js-color-picker-bt";
+import { provideVSCodeDesignSystem, vsCodeButton } from "@vscode/webview-ui-toolkit";
 
 // Libs
 import { Navigator } from "./navigator";
 import { ContentManager } from "./contentManager";
 import { StateManager } from "./stateManager";
 import { LoaderManager } from "./loaderManager";
+import resizeAllModule from './resizer';
+
+provideVSCodeDesignSystem().register(vsCodeButton());
 
 const DEBUG = false;
 
@@ -21,10 +25,11 @@ const DEBUG = false;
 const stateManager = new StateManager();
 const loaderManager = new LoaderManager(stateManager);
 
+
 const modeler = new BpmnModeler({
   container: "#canvas",
   keyboard: { bindTo: document },
-  additionalModules: [BpmnColorPickerModule],
+  additionalModules: [BpmnColorPickerModule, resizeAllModule],
 });
 
 const navigation = new Navigator(modeler, stateManager);
@@ -93,8 +98,24 @@ function setupListeners() {
   navigation.startListeners();
 }
 
+ function setEncoded(link, name, data) {
+    let encodedData = encodeURIComponent(data);
+    console.log(link);
+    
+
+    if (data) {
+
+      // window.open('data:application/bpmn20-xml;charset=UTF-8,' + encodedData);
+      // link.setAttribute('class', 'active').setAttribute(
+        // 'href', 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData)
+        // .setAttribute('download', `${name}`);
+    } else {
+      // link.removeClass('active');
+    }
+  }
+
 // Init
-async function init() {
+async function init() { 
   DEBUG && console.debug("[BPMN_Editor.Webview] Initializing");
 
   // Load last state
@@ -105,6 +126,32 @@ async function init() {
   if (state.rootNodeId) navigation.setRootNodeId(state.rootNodeId);
   if (state.viewBox) navigation.setViewBox(state.viewBox);
   setupListeners();
+
+  const downloadSvg = document.querySelector('#js-download-diagram');
+  downloadSvg?.addEventListener("click", async(e) => {
+    console.log('downloadSvg', e.target);  
+
+    try {
+      const { svg } = await modeler.saveSVG();
+      let elem = e.target;
+
+      if(elem.tagName != 'A' || !elem.querySelector('a')) {
+        let encodedData = encodeURIComponent(svg);
+
+        let a = document.createElement('a');
+        a.innerText = '...';
+        a.download = 'diagram.svg';
+        a.href = 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData; 
+  
+        a.click();
+
+        a.remove();        
+      } 
+    } catch (err) {
+      console.error('Error happened saving svg: ', err);
+    }
+  });
 }
 
-init();
+
+window.addEventListener("load", init);

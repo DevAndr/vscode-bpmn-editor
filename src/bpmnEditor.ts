@@ -47,8 +47,7 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     });
 
     // Document content change subscription
-    const changeDocumentSubscription = vscode.workspace.onDidSaveTextDocument(
-      (e) => {
+    const changeDocumentSubscription = vscode.workspace.onDidSaveTextDocument((e: any) => {
         if (this.skipNextUpdatePush) this.skipNextUpdatePush = false;
         else updateXML();
       }
@@ -59,7 +58,7 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     });
 
     // Handle events from the webview
-    webviewPanel.webview.onDidReceiveMessage((e) => {
+    webviewPanel.webview.onDidReceiveMessage((e: any) => {
       switch (e.type) {
         case "updateXML":
           this.replaceDocument(document, e.text);
@@ -118,8 +117,13 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
 				<link rel="stylesheet" href="${cssUri}">
 			</head>
 			<body>
-				<div id="canvas"></div>
-				Hello World!
+				<div class="canvas" id="canvas"></div>
+        <div class="footer">
+        <ul class="buttons">
+         <vscode-button id="js-download-diagram">Export SVG</vscode-button> 
+        </ul>
+        <div class="errors"></div>
+    </div>
 			</body>
 		</html>
 		`;

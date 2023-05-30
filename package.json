@@ -1,20 +1,16 @@
 {
   "name": "vscode-bpmn-editor",
-  "displayName": "BPMN Editor",
-  "description": "A .bpmn file editor integreated with VSCode, using BPMN-js",
-  "publisher": "yleflour",
-  "version": "1.0.4",
+  "displayName": "BPMN Editor Ultimate",
+  "description": "A .bpmn file editor integreated with VSCode, using BPMN-js, resize, color picker, export to SVG",
+  "publisher": "Nosenko Ilya",
+  "version": "1.0.6",
   "icon": "images/logo.png",
-  "repository": {
-    "url": "https://github.com/yleflour/vscode-bpmn-editor.git",
-    "type": "git"
-  },
   "author": {
-    "name": "Yann Leflour"
+    "name": "Nosenko Ilya"
   },
   "license": "MIT",
   "engines": {
-    "vscode": "^1.32.0"
+    "vscode": "^1.78.0"
   },
   "categories": [
     "Other"
@@ -49,11 +45,19 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/node": "^12.12.0",
-    "@types/vscode": "^1.32.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
     "@typescript-eslint/eslint-plugin": "^4.16.0",
     "@typescript-eslint/parser": "^4.16.0",
-    "eslint": "^7.21.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.39.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
     "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.2.2"
   }
 }

@@ -3,3 +3,5 @@ node_modules
 .vscode-test/
 *.vsix
 web-dist
+bpmn-io-custom/yarn.lock
+yarn.lock
